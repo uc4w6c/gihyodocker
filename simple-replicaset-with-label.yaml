@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: app
+  labels:
+    app: app
+    release: spring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+      release: spring
+  template:
+    metadata:
+      labels:
+        app: app
+        release: spring
+    spec:
+      containers:
+      - name: nginx
+        image: nginx-demo-proxy:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+      - name: spring
+        image: demo:0.0.1-SNAPSHOT
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: app-summer
+  labels:
+    app: app
+    release: summer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app
+      release: summer
+  template:
+    metadata:
+      labels:
+        app: app
+        release: summer
+    spec:
+      containers:
+      - name: nginx
+        image: nginx-demo-proxy:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+      - name: spring
+        image: demo:0.0.1-SNAPSHOT
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+
